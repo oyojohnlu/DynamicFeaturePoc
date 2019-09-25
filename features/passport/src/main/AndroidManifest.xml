@@ -1,0 +1,27 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dist="http://schemas.android.com/apk/distribution"
+    package="com.oyo.mobile.passport">
+
+    <dist:module
+        dist:instant="false"
+        dist:title="@string/title_passport">
+        <dist:delivery>
+            <dist:on-demand />
+            <dist:conditions>
+                <!-- Specifies the minimum API level that the device must satisfy
+                      in order to download your module at app install-time. -->
+                <dist:target-sdk dist:value="28"/>
+            </dist:conditions>
+        </dist:delivery>
+        <dist:fusing dist:include="true" />
+    </dist:module>
+
+    <application>
+        <activity android:name="com.oyo.mobile.passport.PassportActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
+
