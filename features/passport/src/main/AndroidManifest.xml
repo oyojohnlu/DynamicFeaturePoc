@@ -6,12 +6,28 @@
         dist:instant="false"
         dist:title="@string/title_passport">
         <dist:delivery>
-            <dist:on-demand />
-            <dist:conditions>
-                <!-- Specifies the minimum API level that the device must satisfy
-                      in order to download your module at app install-time. -->
-                <dist:target-sdk dist:value="28"/>
-            </dist:conditions>
+            <dist:install-time>
+                <dist:conditions>
+                    <!-- Specifies the minimum API level that the device must satisfy
+                          in order to download your module at app install-time. -->
+                    <!--                    <dist:target-sdk dist:value="28"/>-->
+                    <dist:device-feature dist:name="android.hardware.camera.ar" />
+
+                    <!-- Specifies the minimum API level that the device must satisfy
+                         in order to download your module at app install-time. -->
+                    <dist:min-sdk dist:value="29" />
+
+                    <!-- Set to "true" to specify countries to exclude from downloading
+                           this module at app install-time. By default, modules are available
+                           for download to all user countries. -->
+                    <dist:user-countries dist:exclude="true">
+                        <!-- Specifies the two-letter  CLDR country code for regions that should
+                        not download the module at app install-time. -->
+                        <dist:country dist:code="CN" />
+                        <dist:country dist:code="HK" />
+                    </dist:user-countries>
+                </dist:conditions>
+            </dist:install-time>
         </dist:delivery>
         <dist:fusing dist:include="true" />
     </dist:module>
