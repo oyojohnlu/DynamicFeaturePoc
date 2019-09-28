@@ -14,7 +14,7 @@ private const val OYOPASSPORT_UTILITY = "com.oyo.mobile.passport.Passport"
 
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel: FeatureLoadViewModule by viewModel()
+    private val viewModel: FeatureLoadViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,17 +55,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateStatusLabel(status: Int?) = status?.let {
         when (status) {
-            FeatureLoadViewModule.LoadingStatus.DOWNLOADING,
-            FeatureLoadViewModule.LoadingStatus.INSTALLING -> {
+            FeatureLoadViewModel.LoadingStatus.DOWNLOADING,
+            FeatureLoadViewModel.LoadingStatus.INSTALLING -> {
                 statusLabel.text = "Loading"
                 updateProgress(true)
             }
-            FeatureLoadViewModule.LoadingStatus.INSTALLED -> {
+            FeatureLoadViewModel.LoadingStatus.INSTALLED -> {
                 statusLabel.text =
                     "Done: ${getFeature(OYOPASSPORT_UTILITY, Feature.NoParams()).getFeatureName()}"
                 updateProgress(false)
             }
-            FeatureLoadViewModule.LoadingStatus.FAILED -> {
+            FeatureLoadViewModel.LoadingStatus.FAILED -> {
                 updateProgress(false)
             }
         }

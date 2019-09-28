@@ -8,7 +8,7 @@ import com.google.android.play.core.splitinstall.SplitInstallManager
 import com.google.android.play.core.splitinstall.SplitInstallRequest
 import com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListener
 
-class FeatureLoadViewModule(
+class FeatureLoadViewModel(
     private val context: Context,
     private val manager: SplitInstallManager
 ) : ViewModel() {
