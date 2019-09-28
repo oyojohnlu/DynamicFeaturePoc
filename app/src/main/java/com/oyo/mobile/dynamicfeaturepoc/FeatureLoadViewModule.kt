@@ -7,15 +7,14 @@ import androidx.lifecycle.ViewModel
 import com.google.android.play.core.splitinstall.SplitInstallManager
 import com.google.android.play.core.splitinstall.SplitInstallRequest
 import com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListener
-import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
 
-class MainViewModule(
+class FeatureLoadViewModule(
     private val context: Context,
     private val manager: SplitInstallManager
 ) : ViewModel() {
 
-    private val _featureLoadingStatus = MutableLiveData<FeatureLoadingStatus>()
-    val featureLoadingStatus: LiveData<FeatureLoadingStatus> = _featureLoadingStatus
+    private val _featureLoadingStatus = MutableLiveData<Int>()
+    val loadingStatus: LiveData<Int> = _featureLoadingStatus
 
     private val _onSuccessfulLoad = MutableLiveData<Boolean>()
     val onSuccessfulLoad: LiveData<Boolean> = _onSuccessfulLoad
@@ -24,16 +23,7 @@ class MainViewModule(
     val onFailedLoad: LiveData<Failure> = _onFailedLoad
 
     private val listener = SplitInstallStateUpdatedListener { state ->
-        when (state.status()) {
-            SplitInstallSessionStatus.FAILED ->
-                _featureLoadingStatus.value = FeatureLoadingStatus.FAILED
-            SplitInstallSessionStatus.INSTALLING ->
-                _featureLoadingStatus.value = FeatureLoadingStatus.INSTALLING
-            SplitInstallSessionStatus.INSTALLED ->
-                _featureLoadingStatus.value = FeatureLoadingStatus.INSTALLED
-            SplitInstallSessionStatus.DOWNLOADING ->
-                _featureLoadingStatus.value = FeatureLoadingStatus.DOWNLOADING
-        }
+        _featureLoadingStatus.value = state.status()
     }
 
     init {
@@ -49,10 +39,10 @@ class MainViewModule(
             return
         }
 
-        requestStorageInstall(name)
+        requestInstall(name)
     }
 
-    private fun requestStorageInstall(name: String) {
+    private fun requestInstall(name: String) {
         val request =
             SplitInstallRequest
                 .newBuilder()
@@ -61,6 +51,9 @@ class MainViewModule(
 
         manager
             .startInstall(request)
+            .addOnSuccessListener {
+                _onSuccessfulLoad.value = true
+            }
             .addOnFailureListener { exception ->
                 _onFailedLoad.value = Failure.FeatureFailure(exception)
             }
@@ -71,8 +64,18 @@ class MainViewModule(
         manager.unregisterListener(listener)
     }
 
-    enum class FeatureLoadingStatus {
-        DOWNLOADING, INSTALLING, FAILED, INSTALLED
+
+    object LoadingStatus {
+        const val UNKNOWN = 0
+        const val PENDING = 1
+        const val DOWNLOADING = 2
+        const val DOWNLOADED = 3
+        const val INSTALLING = 4
+        const val INSTALLED = 5
+        const val FAILED = 6
+        const val CANCELED = 7
+        const val REQUIRES_USER_CONFIRMATION = 8
+        const val CANCELING = 9
     }
 
 }

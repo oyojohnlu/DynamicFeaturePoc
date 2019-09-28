@@ -32,6 +32,7 @@ object Libraries {
     }
 
     const val kotlinStdLib     = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+    const val kotlinReflection = "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
     const val appCompat        = "androidx.appcompat:appcompat:${Versions.jetpack}"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
     const val playCore         = "com.google.android.play:core:${Versions.play}"

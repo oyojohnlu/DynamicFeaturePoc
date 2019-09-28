@@ -24,6 +24,7 @@ android {
 
 dependencies {
     implementation(Libraries.kotlinStdLib)
+    implementation(Libraries.kotlinReflection)
     api(Libraries.appCompat)
     api(Libraries.ktxCore)
     api(Libraries.constraintLayout)
